@@ -1,56 +1,54 @@
 # gql-folders-script
-Easily create a clean folder structure based on a GraphQL schema string
+### Easily create a clean folder structure based on a GraphQL schema string
 
-Just go into the a folder with a file that contains your GraphQL schema and run <code>npx gql-folder-cli [filename.ts] [variableName]</code>.
+Just go into the folder that contains a file containing your GraphQL schema and run <code>npx gql-folder-cli [filename.js] [variableName]</code>.
+By default, filename.js will be <code>schema.js</code> and variableName will be <code>typeDefs</code>.
 
-The file with your GraphQL schema should look roughly as follows:
+The file containing your GraphQL schema should look as follows:
+
+     export const typeDefs = `
+      type User {
+        id: Int!
+        username: String!
+      }
+
+      type Something {
+        id: Int!
+        user: User
+        userId: Int!
+      }
+
+      type Mutation {
+        createNewUser(email: String!): User
+        createSomething: Something
+      }
+    `;
 
 
-export const typeDefs = `\n
-  type User {\n
-    id: Int!\n
-    username: String!\n
-  }\n
-\n
-  type Something {\n
-    id: Int!\n
-    user: User\n
-    userId: Int!\n
-  }\n
-\n
-  type Mutation {\n
-    createNewUser(email: String!): User\n
-    createSomething: Something\n
-  }\n
-`;\n
+The generated folder structure will rougly look as follows:
+    
+     resolvers/
+      ├─ mutations/
+      │  ├─ createSomething.js
+      │  ├─ index.js
+      ├─ something/
+      │  ├─ index.js
+      │  ├─ user.js
+      ├─ user/
+      │  ├─ index.js
+      ├─ index.js
 
-
-The folder structure will rougly look as follows:
-
-<code>\n
-  resolvers/\n
-  ├─ mutations/\n
-  │  ├─ createSomething.js\n
-  │  ├─ index.js\n
-  ├─ something/\n
-  │  ├─ index.js\n
-  │  ├─ user.js\n
-  ├─ user/\n
-  │  ├─ index.js\n
-  ├─ index.js\n
-</code>
 
 Every file initializes the resolver functions and exports them in the index.js.
 The main index.js will look as follows:
 
-<code>
-  import { User } from "./user";\n
-  import { Something } from "./something";\n
-  import { Mutation } from "./mutations";\n
-\n
-  export const resolvers = {\n
-    User,\n
-    Something,\n
-    Mutation,\n
-  };\n
-</code>
+      import { User } from "./user";
+      import { Something } from "./something";
+      import { Mutation } from "./mutations";
+
+      export const resolvers = {
+        User,
+        Something,
+        Mutation,
+      };
+
