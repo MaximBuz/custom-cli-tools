@@ -10,8 +10,5 @@
   "license": "ISC",
   "bin": {
     "gql-folders": "./cli.js"
-  },
-  "dependencies": {
-    "make-plural": "^7.1.0"
   }
 }
