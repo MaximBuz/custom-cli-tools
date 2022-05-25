@@ -1,4 +1,4 @@
-# gql-folders-script
+# Generate GraphQL Resolver Templates
 ### Easily create a clean folder structure based on a GraphQL schema string
 
 Just go into the folder that contains a file containing your GraphQL schema and run <code>npx gql-folder-cli [filename.js] [variableName]</code>.
