@@ -1,6 +1,6 @@
 {
   "name": "gql-folder-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Create a clean folder structure based on a GraphQL schema",
   "main": "index.js",
   "scripts": {
