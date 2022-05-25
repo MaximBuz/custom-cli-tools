@@ -8,6 +8,15 @@
   },
   "author": "Maxim Buz",
   "license": "ISC",
+  "keywords": [
+    "cli",
+    "graphql",
+    "resolvers",
+    "generator",
+    "clean folder structure"
+  ],
+  "repository": "https://github.com/MaximBuz/gql-folders-script",
+  "homepage": "https://github.com/MaximBuz/gql-folders-script#readme",
   "bin": {
     "gql-folders": "./cli.js"
   }

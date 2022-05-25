@@ -16,13 +16,13 @@ let data;
 
 // reading the file
 try {
-  data = fs.readFileSync(`./${fileName}`, 'utf8');
+  data = fs.readFileSync(`./${fileName || "schema.js"}`, 'utf8');
 } catch (err) {
   console.error(err);
 }
 
 // get full schema
-const schemaString = data.match(/(typeDef = `)([\s\S]*?)`/g)?.[0]?.replace(`${varName || "typeDef"} =`, "")?.replaceAll("`", "");
+const schemaString = data.match(/(typeDef = `)([\s\S]*?)`/g)?.[0]?.replace(`${varName || "typeDefs"} =`, "")?.replaceAll("`", "");
 const mutations = getMutations(schemaString);
 const queries = getQueries(schemaString);
 const types = schemaString.match(/(?<=type )(.*)(?= {)/g);
