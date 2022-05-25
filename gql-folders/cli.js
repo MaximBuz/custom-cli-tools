@@ -25,7 +25,8 @@ try {
 }
 
 // get full schema
-const schemaString = data.match(/(typeDef = `)([\s\S]*?)`/g)?.[0]?.replace(`${varName} =`, "")?.replaceAll("`", "");
+const schemaRX = new RegExp("(" + varName + " = `)([\\s\\S]*?)`", "g");
+const schemaString = data.match(schemaRX)?.[0]?.replace(`${varName} =`, "")?.replaceAll("`", "");
 const mutations = getMutations(schemaString);
 const queries = getQueries(schemaString);
 const types = schemaString.match(/(?<=type )(.*)(?= {)/g);
