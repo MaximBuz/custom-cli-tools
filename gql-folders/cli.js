@@ -2,7 +2,10 @@
 
 // grab arguments
 const [, , ...args] = process.argv;
-const [fileName, varName] = args;
+let [fileName, varName] = args;
+
+if (!fileName) fileName = "schema.js";
+if (!varName) varName = "typeDefs";
 
 // script
 const fs = require("fs");
@@ -16,13 +19,13 @@ let data;
 
 // reading the file
 try {
-  data = fs.readFileSync(`./${fileName || "schema.js"}`, 'utf8');
+  data = fs.readFileSync(`./${fileName}`, 'utf8');
 } catch (err) {
   console.error(err);
 }
 
 // get full schema
-const schemaString = data.match(/(typeDef = `)([\s\S]*?)`/g)?.[0]?.replace(`${varName || "typeDefs"} =`, "")?.replaceAll("`", "");
+const schemaString = data.match(/(typeDef = `)([\s\S]*?)`/g)?.[0]?.replace(`${varName} =`, "")?.replaceAll("`", "");
 const mutations = getMutations(schemaString);
 const queries = getQueries(schemaString);
 const types = schemaString.match(/(?<=type )(.*)(?= {)/g);
