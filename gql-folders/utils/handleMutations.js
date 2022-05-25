@@ -10,7 +10,6 @@ module.exports = {
         `export function ${mutation}(_parent, _args, context) {}`
       );
     }
-
     fs.writeFileSync(path + "/index.js",
       `${mutations.map(mutation => `import { ${mutation} } from "./${mutation}";`).join("\n")}\n\nexport const Mutation = {\n${mutations.map(mutation => `\t${mutation},`).join("\n")}\n};`
     );

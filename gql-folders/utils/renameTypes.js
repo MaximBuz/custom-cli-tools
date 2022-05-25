@@ -3,12 +3,12 @@ module.exports = {
     return types.map(type => {
       if (type == "Mutation") return "mutations";
       if (type == "Query") return "queries";
-      return type[0].toLowerCase() + type.slice(1);
+      return (type[0].toLowerCase() + type.slice(1)).trim();
     });
   },
   toFolderName (type) {
     if (type == "Mutation") return "mutations";
     if (type == "Query") return "queries";
-    return type[0].toLowerCase() + type.slice(1);
+    return (type[0].toLowerCase() + type.slice(1)).trim();
   }
 };
