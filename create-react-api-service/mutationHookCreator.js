@@ -1,11 +1,10 @@
 module.exports = function mutationHookCreator (mutation) {
   const importsLine = `import mutation from '..';\nimport { ${mutation} } from '../../endpoints';\n`;
 
-  const hook = `export default function use${String(mutation[0].toUpperCase() + mutation.slice(1))} () {
-  return function (id, data) {
-    return mutation(...${mutation}(id, data));
-  };
-}`
+  const hook = `export default function ${String(mutation[0].toUpperCase() + mutation.slice(1))}Mutation (id, data) {
+  return mutation(...${mutation}(id, data));
+};
+`
 
   return `${importsLine}\n${hook}`;
 };
@@ -15,10 +14,8 @@ module.exports = function mutationHookCreator (mutation) {
 import mutation from '..';
 import { addTopic } from '../../endpoints';
 
-export default function useAddTopic () {
-  return function (id, data) {
-    return mutation(addTopic(id, data));
-  };
-}
+export default function addTopicMutation (data) {
+  return mutation(...addTopic(data));
+};
 
 */
