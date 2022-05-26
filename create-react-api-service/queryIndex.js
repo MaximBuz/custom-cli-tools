@@ -1,12 +1,12 @@
 module.exports = queryIndex = () => (
 `import { useState, useEffect } from "react";
 
-export default function useApiResult(request) {
+export default function useApiResult(request, options) {
 	const [results, setResults] = useState(null);
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		fetch(request)
+		fetch(request, options)
 			.then(async (response) => {
 				if (response.ok) {
 					setResults(await response.json());
