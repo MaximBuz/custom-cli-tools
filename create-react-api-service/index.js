@@ -87,6 +87,21 @@ const prompts = require('prompts');
     console.error(err);
   }
 
+  // create an api object exportet from index
+  try {
+    fs.writeFileSync(BASE_PATH + `/index.js`,
+      `${mutations.map(mutation => `import ${mutation} from "./mutations/handlers/${String(mutation[0].toUpperCase() + mutation.slice(1))}Mutation"\n`).join("\n")}${getters.map(getter => `import ${getter} from "./queries/hooks/use${String(getter[0].toUpperCase() + getter.slice(1))}"\n`).join("\n")}
+export default {
+  ${mutations.map(mutation => (mutation + ",")).join("\n")}
+  ${getters.map(getter => (getter + ",")).join("\n")}
+}`
+    );
+  } catch (err) {
+    console.error(err);
+  }
+
+
+
 
   /* 
   // TODO: IMPLEMENT GETTER BY ID HOOKS!!
