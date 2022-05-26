@@ -70,7 +70,7 @@ const prompts = require('prompts');
     const QUERY_HOOK_PATH = QUERY_PATH + "/hooks/";
     fs.mkdirSync(QUERY_HOOK_PATH, { recursive: true });
     for (let getter of getters) {
-      fs.writeFileSync(QUERY_HOOK_PATH + `/use${String(getter[0].toUpperCase() + getter.slice(1))}.js`, queryHookCreator(getter));
+      fs.writeFileSync(QUERY_HOOK_PATH + `/${String(getter[0].toUpperCase() + getter.slice(1))}Mutation.js`, queryHookCreator(getter));
     }
   } catch (err) {
     console.error(err);
