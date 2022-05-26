@@ -1,6 +1,6 @@
 {
   "name": "create-react-api-service",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Creates a bunch of useful and clean custom hooks for data fetching",
   "main": "index.js",
   "scripts": {

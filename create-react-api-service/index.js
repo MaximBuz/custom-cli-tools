@@ -70,7 +70,7 @@ const prompts = require('prompts');
     const QUERY_HOOK_PATH = QUERY_PATH + "/hooks/";
     fs.mkdirSync(QUERY_HOOK_PATH, { recursive: true });
     for (let getter of getters) {
-      fs.writeFileSync(QUERY_HOOK_PATH + `/${String(getter[0].toUpperCase() + getter.slice(1))}Mutation.js`, queryHookCreator(getter));
+      fs.writeFileSync(QUERY_HOOK_PATH + `/use${String(getter[0].toUpperCase() + getter.slice(1))}.js`, queryHookCreator(getter));
     }
   } catch (err) {
     console.error(err);
@@ -78,10 +78,10 @@ const prompts = require('prompts');
 
   // create a custom hook for every mutation
   try {
-    const MUTATIONS_HOOK_PATH = MUTATIONS_PATH + "/hooks/";
-    fs.mkdirSync(MUTATIONS_HOOK_PATH, { recursive: true });
+    const MUTATIONS_HANDLER_PATH = MUTATIONS_PATH + "/handlers/";
+    fs.mkdirSync(MUTATIONS_HANDLER_PATH, { recursive: true });
     for (let mutation of mutations) {
-      fs.writeFileSync(MUTATIONS_HOOK_PATH + `/use${String(mutation[0].toUpperCase() + mutation.slice(1))}.js`, mutationHookCreator(mutation));
+      fs.writeFileSync(MUTATIONS_HANDLER_PATH + `/${String(mutation[0].toUpperCase() + mutation.slice(1))}Mutation.js`, mutationHookCreator(mutation));
     }
   } catch (err) {
     console.error(err);
