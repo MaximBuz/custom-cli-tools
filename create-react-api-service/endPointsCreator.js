@@ -7,7 +7,7 @@ module.exports = function endPointsCreator (baseUrl, getters, gettersById, mutat
 
   const getterByIdEndPoints = gettersById?.map(getter => `export const ${getter} = (id) => [\n\tcreateUrl(BASE_URL, "/${getter}/" + id),\n\t{ method: "GET" }\n];`).join("\n");
 
-  const mutationEndPoints = mutations?.map(mutation => `export const ${mutation} = (id, data) => [\ncreateUrl(BASE_URL, "/${mutation}/" + id),\n{\n\tmethod: "POST",\n\theaders: {\n\t\t'Content-Type': 'application/x-www-form-urlencoded',\n\t},\n\tbody: data/n}\n];`).join("\n");
+  const mutationEndPoints = mutations?.map(mutation => `export const ${mutation} = (id, data) => [\ncreateUrl(BASE_URL, "/${mutation}/" + id),\n{\n\tmethod: "POST",\n\theaders: {\n\t\t'Content-Type': 'application/x-www-form-urlencoded',\n\t},\n\tbody: data}\n];`).join("\n");
 
   return `${baseUrlLine}\n${createUrlLine}\n${getterEndPoints || ""}\n${getterByIdEndPoints || ""}\n${mutationEndPoints || ""}`;
 };
