@@ -9,6 +9,7 @@ const [baseUrl, ...fetchers] = args;
 const fs = require("fs");
 const endPointsCreator = require("./endPointsCreator");
 const hookCreator = require('./hookCreator');
+const useApiResultCode = require("./useApiResults");
 
 // constants
 const BASE_PATH = "./api-client";
@@ -16,8 +17,7 @@ const BASE_PATH = "./api-client";
 // creat custom hook just for making API requests
 try {
   fs.mkdirSync(BASE_PATH, { recursive: true });
-  const useApiResultCode = fs.readFileSync("./useApiResults.txt", "utf-8");
-  fs.writeFileSync(BASE_PATH + "/useApiResult.js", useApiResultCode);
+  fs.writeFileSync(BASE_PATH + "/useApiResult.js", useApiResultCode());
 } catch (err) {
   console.error(err);
 }

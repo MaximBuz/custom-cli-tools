@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+module.exports = useApiResultsCode = () => (
+`import { useState, useEffect } from "react";
 
 export default function useApiResult(request) {
 	const [results, setResults] = useState(null);
@@ -18,4 +19,5 @@ export default function useApiResult(request) {
 	}, [request])
 
 	return [results, error];
-}
+}`
+);
