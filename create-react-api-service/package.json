@@ -1,6 +1,6 @@
 {
   "name": "create-react-api-service",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Creates a bunch of useful and clean custom hooks for data fetching",
   "main": "index.js",
   "scripts": {
@@ -9,6 +9,8 @@
   "keywords": [
     "react"
   ],
+  "repository": "https://github.com/MaximBuz/create-react-api-service",
+  "homepage": "https://github.com/MaximBuz/create-react-api-service#readme",
   "author": "Maxim buz",
   "license": "MIT",
   "bin" : {
