@@ -26,9 +26,9 @@ const prompts = require('prompts');
   });
 
   // create arrays from answers
-  getters = getters?.split(",");
-  gettersById = gettersById?.split(",");
-  mutations = mutations?.split(",");
+  getters = getters?.split(",").map(item => item.trim());
+  gettersById = gettersById?.split(",").map(item => item.trim());
+  mutations = mutations?.split(",").map(item => item.trim());
 
 
   // script

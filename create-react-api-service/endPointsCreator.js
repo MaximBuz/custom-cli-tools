@@ -5,31 +5,34 @@ module.exports = async function endPointsCreator (baseUrl, getters, gettersById,
 
   const createUrlLine = "const createUrl = (base, path) => `${base}${path}`;\n";
 
-  const getterEndPoints = await Promise.all(getters?.map(async getter => {
-    const { endPointGetter } = await prompts({
+  const getterEndPoints = getters.length > 0 && await Promise.all(getters?.map(async getter => {
+    const { [getter]: endPoint } = await prompts({
       type: 'text',
-      name: `endPointGetter${getter}`,
+      name: getter,
       message: `What is the Endpoint for ${getter}?`,
     });
-    return `export const ${getter} = () => [\n\tcreateUrl(BASE_URL, "/${endPointGetter}"),\n\t{ method: "GET" }\n];`;
+    if (!endPoint) return;
+    return `export const ${getter} = () => [\n\tcreateUrl(BASE_URL, "/${endPoint}"),\n\t{ method: "GET" }\n];`;
   }));
 
-  const getterByIdEndPoints = await Promise.all(gettersById?.map(async getter => {
-    const { endPointGetterById } = await prompts({
+  const getterByIdEndPoints = gettersById.length > 0 && await Promise.all(gettersById?.map(async getter => {
+    const { [getter]: endPoint } = await prompts({
       type: 'text',
-      name: `endPointGetterById${getter}`,
+      name: getter,
       message: `What is the Endpoint for ${getter}?`,
     });
-    return `export const ${getter} = (id) => [\n\tcreateUrl(BASE_URL, "/${endPointGetterById}/" + id),\n\t{ method: "GET" }\n];`;
+    if (!endPoint) return;
+    return `export const ${getter} = (id) => [\n\tcreateUrl(BASE_URL, "/${endPoint}/" + id),\n\t{ method: "GET" }\n];`;
   }));
 
-  const mutationEndPoints = await Promise.all(mutations?.map(async mutation => {
-    const { endPointMutation } = await prompts({
+  const mutationEndPoints = mutations.length > 0 && await Promise.all(mutations?.map(async mutation => {
+    const { [mutation]: endPoint } = await prompts({
       type: 'text',
-      name: `endPointMutation${mutation}`,
+      name: mutation,
       message: `What is the Endpoint for ${mutation}?`,
     });
-    return `export const ${mutation} = (id, data) => [\ncreateUrl(BASE_URL, "/${endPointMutation}/" + id),\n{\n\tmethod: "POST",\n\theaders: {\n\t\t'Content-Type': 'application/x-www-form-urlencoded',\n\t},\n\tbody: data\n}\n];`;
+    if (!endPoint) return;
+    return `export const ${mutation} = (id, data) => [\ncreateUrl(BASE_URL, "/${endPoint}/" + id),\n{\n\tmethod: "POST",\n\theaders: {\n\t\t'Content-Type': 'application/x-www-form-urlencoded',\n\t},\n\tbody: data\n}\n];`;
   }));
 
   return `${baseUrlLine}\n${createUrlLine}\n${getterEndPoints.join("\n") || ""}\n${getterByIdEndPoints.join("\n") || ""}\n${mutationEndPoints.join("\n") || ""}`;
