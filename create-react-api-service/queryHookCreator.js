@@ -17,7 +17,7 @@ import { getTodos } from "./requests";
 
 export default function useTodos () {
 	const request = useMemo(() => getTodos(), []); // stable identity
-	return useApiResult(request);
+	return useApiResult(...request);
 }
 
 */
