@@ -1,6 +1,6 @@
 {
   "name": "create-react-api-service",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Creates a bunch of useful and clean custom hooks for data fetching",
   "main": "index.js",
   "scripts": {
@@ -13,7 +13,10 @@
   "homepage": "https://github.com/MaximBuz/custom-cli-tools/tree/main/create-react-api-service#readme",
   "author": "Maxim buz",
   "license": "MIT",
-  "bin" : {
+  "bin": {
     "create-react-api-service": "./index.js"
+  },
+  "dependencies": {
+    "minimist": "^1.2.6"
   }
 }

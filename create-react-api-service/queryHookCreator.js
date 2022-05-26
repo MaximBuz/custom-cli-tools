@@ -1,5 +1,5 @@
-module.exports = function hookCreator (fetcher) {
-  const importsLine = `import { useMemo } from "react";\nimport useApiResult from "../useApiResult";\nimport { ${fetcher} } from "../endpoints";\n`;
+module.exports = function queryHookCreator (fetcher) {
+  const importsLine = `import { useMemo } from "react";\nimport useApiResult from "..";\nimport { ${fetcher} } from "../endpoints";\n`;
 
   const hook = `export default function use${String(fetcher[0].toUpperCase() + fetcher.slice(1))} () {
   const request = useMemo(() => ${fetcher}(), []);

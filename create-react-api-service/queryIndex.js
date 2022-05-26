@@ -1,4 +1,4 @@
-module.exports = useApiResultsCode = () => (
+module.exports = queryIndex = () => (
 `import { useState, useEffect } from "react";
 
 export default function useApiResult(request) {
