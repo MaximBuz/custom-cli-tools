@@ -3,7 +3,7 @@ module.exports = function mutationHookCreator (mutation) {
 
   const hook = `export default function use${String(mutation[0].toUpperCase() + mutation.slice(1))} () {
   return function (id, data) {
-    return mutation(${mutation}(id, data));
+    return mutation(...${mutation}(id, data));
   };
 }`
 
