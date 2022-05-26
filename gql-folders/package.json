@@ -15,8 +15,8 @@
     "generator",
     "clean folder structure"
   ],
-  "repository": "https://github.com/MaximBuz/gql-folders-script",
-  "homepage": "https://github.com/MaximBuz/gql-folders-script#readme",
+  "repository": "https://github.com/MaximBuz/custom-cli-tools/tree/main/gql-folders",
+  "homepage": "https://github.com/MaximBuz/custom-cli-tools/tree/main/gql-folders#readme",
   "bin": {
     "gql-folders": "./cli.js"
   }

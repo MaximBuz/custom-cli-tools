@@ -9,8 +9,8 @@
   "keywords": [
     "react"
   ],
-  "repository": "https://github.com/MaximBuz/create-react-api-service",
-  "homepage": "https://github.com/MaximBuz/create-react-api-service#readme",
+  "repository": "https://github.com/MaximBuz/custom-cli-tools/tree/main/create-react-api-service",
+  "homepage": "https://github.com/MaximBuz/custom-cli-tools/tree/main/create-react-api-service#readme",
   "author": "Maxim buz",
   "license": "MIT",
   "bin" : {
