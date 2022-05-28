@@ -2,16 +2,15 @@ module.exports = async function endPointsCreator (baseUrl, getters, gettersById,
   const baseUrlLine = `export const BASE_URL = "${baseUrl}";\n`;
 
   const createUrlLine = "const createUrl = (base, path) => `${base}${path}`;\n";
-
-  const getterEndPoints = getters.length > 0 && getters.map(getter => {
+  const getterEndPoints = getters.map(getter => {
     return `export const ${getter.method} = () => [\n\tcreateUrl(BASE_URL, \`${getter.path.replace(/(:).*?(?=\/|($))/g, "${id}")}\`),\n\t{ method: "GET" }\n\n];`;
   });
 
-  const getterByIdEndPoints = gettersById.length > 0 && gettersById.map(getter => {
+  const getterByIdEndPoints = gettersById.map(getter => {
     return `export const ${getter.method} = (id) => [\n\tcreateUrl(BASE_URL, \`${getter.path.replace(/(:).*?(?=\/|($))/g, "${id}")}\`),\n\t{ method: "GET" }\n\n];`;
   });
 
-  const mutationEndPoints = mutations.length > 0 && mutations.map(mutation => {
+  const mutationEndPoints = mutations.map(mutation => {
     return `export const ${mutation.method} = (id, data) => [\ncreateUrl(BASE_URL, \`${mutation.path.replace(/(:).*?(?=\/|($))/g, "${id}")}\`),\n{\n\tmethod: "POST",\n\theaders: {\n\t\t'Content-Type': 'application/x-www-form-urlencoded',\n\t},\n\tbody: data\n}\n];\n`;
   });
 

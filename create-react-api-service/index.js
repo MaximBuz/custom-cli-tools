@@ -14,20 +14,20 @@ const name = require("./utils/transformName");
   // Grabing user Info
   let { baseUrl, get, getById, mutate } = await prompts(questions.initial);
 
-  const getters = get.map(getter => {
+  const getters = get[0].length > 1 ? get.map(getter => {
     const [method, path] = getter.split("=");
     return { method, path };
-  });
+  }) : [];
 
-  const gettersById = getById.map(getter => {
+  const gettersById = getById[0].length > 1 ? getById.map(getter => {
     const [method, path] = getter.split("=");
     return { method, path };
-  });
+  }) : [];
 
-  const mutations = mutate.map(getter => {
+  const mutations = mutate[0].length > 1 ? mutate.map(getter => {
     const [method, path] = getter.split("=");
     return { method, path };
-  });
+  }) : [];
 
   // constants
   const BASE_PATH = "./api-client";

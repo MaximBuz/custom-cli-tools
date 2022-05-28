@@ -13,21 +13,18 @@ module.exports = {
       type: 'list',
       name: 'get',
       message: 'Provide a list of getAll requests e.g. (getTodos=/todos, getTasks=/tasks)',
-      initial: '',
       separator: ',',
     },
     {
       type: 'list',
       name: 'getById',
       message: 'Provide a list of getById requests e.g. (getTodo=/todos/:id, getTask=/tasks/:id)',
-      initial: '',
       separator: ',',
     },
     {
       type: 'list',
       name: 'mutate',
       message: 'Provide a list of all mutation requests e.g. (updateTodo=/todos/:id, updateTask=/tasks/:id)',
-      initial: '',
       separator: ',',
     }
   ]
