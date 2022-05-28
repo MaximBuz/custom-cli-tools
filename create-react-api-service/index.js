@@ -88,11 +88,11 @@ const name = require("./utils/transformName");
   // create an api object exportet from index
   try {
     fs.writeFileSync(BASE_PATH + `/index.js`,
-      `${mutations.map(mutation => `import use${name(mutation.method)} from "./mutations/handlers/use${name(mutation.method)}"\n`).join("\n")}${getters.map(getter => `import use${getter.method} from "./queries/hooks/use${name(getter.method)}"\n`).join("\n")}
+      `${mutations.map(mutation => `import use${name(mutation.method)} from "./mutations/handlers/use${name(mutation.method)}"\n`).join("\n")}${getters.map(getter => `import use${name(getter.method)} from "./queries/hooks/use${name(getter.method)}"\n`).join("\n")}
 
 const api = {
   ${mutations.map(mutation => ("use" + name(mutation.method) + ",")).join("\n")}
-  ${getters.map(getter => ("use" + getter.method + ",")).join("\n")}
+  ${getters.map(getter => ("use" + name(getter.method) + ",")).join("\n")}
 }
 
 export default api;`);
