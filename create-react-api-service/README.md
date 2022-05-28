@@ -1,8 +1,8 @@
 # Generate a REST-API-Service inside your React application
-### Interactively create a clean clean API-Service with easy-to-use hooks for data fetching and data-mutation with REST APIs.
+### Interactively create a clean API-Service with easy-to-use hooks for data fetching and data-mutation with REST APIs.
 
 Simply go inside your <code>src</code> folder and run <code>npx create-react-api-service</code>.
-You will be led through an interactive terminal session that will ask you for a bunch of endPoints.
+You will be led through an interactive terminal session that will ask you for a bunch of mandatory questions.
 
 1. <b>What is the BaseURL?</b> <br/>
      <code>$ http://localhost:4000</code><br/>
