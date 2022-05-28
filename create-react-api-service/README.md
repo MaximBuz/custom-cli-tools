@@ -95,7 +95,7 @@ The <code>api-service/index.js</code> file will make all of your hooks available
           return (
                <>
                     {eventsQuery.error
-                         ? <p>eventsQuery.error</p>
+                         ? <p>{eventsQuery.error}</p>
                          : eventsQuery.results?.map((event) => <p>{event.title}</p>)
                     }
                     <button onClick={handleUpdateEvent}>Update Event</button>
