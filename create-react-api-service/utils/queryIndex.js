@@ -1,5 +1,5 @@
 module.exports = queryIndex = () => (
-`import { useState, useEffect } from "react";
+`import { useState, useEffect, useMemo } from "react";
 
 export default function useApiResult (request, options) {
   const [results, setResults] = useState(null);
@@ -22,6 +22,13 @@ export default function useApiResult (request, options) {
     refetch(request, options);
   }, [request, options]);
 
-  return [results, setResults, () => refetch(request, options), error];
+  const query = useMemo(() => ({
+    results,
+    setResults,
+    refetch,
+    error
+  }), [request, options, results, error])
+
+  return query;
 }`
 );
