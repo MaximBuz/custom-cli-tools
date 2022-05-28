@@ -10,7 +10,7 @@
 module.exports = mutationIndex = () => (
 `import { useState, useMemo } from "react";
 
-export default function useApiResult (request, options) {
+export default function useApiResult () {
   const [results, setResults] = useState(null);
   const [error, setError] = useState(null);
 

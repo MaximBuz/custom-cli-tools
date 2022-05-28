@@ -25,9 +25,9 @@ export default function useApiResult (request, options) {
   const query = useMemo(() => ({
     results,
     setResults,
-    refetch,
+    refetch: () => refetch(request, options),
     error
-  }), [results, error])
+  }), [results, error, request, options])
 
   return query;
 }`
