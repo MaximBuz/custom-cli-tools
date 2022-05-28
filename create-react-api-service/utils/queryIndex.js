@@ -27,7 +27,7 @@ export default function useApiResult (request, options) {
     setResults,
     refetch,
     error
-  }), [request, options, results, error])
+  }), [results, error])
 
   return query;
 }`

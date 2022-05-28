@@ -62,7 +62,7 @@ const name = require("./utils/transformName");
   } catch (err) {
     console.error(err);
   }
-  
+
   // create a custom hook for every getterById
   try {
     const QUERY_HOOK_PATH = QUERY_PATH + "/hooks/";
@@ -89,11 +89,13 @@ const name = require("./utils/transformName");
   try {
     fs.writeFileSync(BASE_PATH + `/index.js`,
       `${mutations.map(mutation => `import use${name(mutation.method)} from "./mutations/handlers/use${name(mutation.method)}"\n`).join("\n")}${getters.map(getter => `import ${getter.method} from "./queries/hooks/use${name(getter.method)}"\n`).join("\n")}
-export default {
+
+const api = {
   ${mutations.map(mutation => ("use" + name(mutation.method) + ",")).join("\n")}
   ${getters.map(getter => (getter.method + ",")).join("\n")}
-}`
-    );
+}
+
+export default api;`);
   } catch (err) {
     console.error(err);
   }

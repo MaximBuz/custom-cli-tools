@@ -29,11 +29,11 @@ export default function useApiResult (request, options) {
       .catch(err => setError(err));
   }
 
-  const mutation = useMemo( () => {
+  const mutation = useMemo( () => ({
     results,
     error,
     mutate
-  }, [results, error, request, options]);
+  }), [results, error]);
 
   return mutation;
 }`
