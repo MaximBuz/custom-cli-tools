@@ -7,13 +7,13 @@ module.exports = {
       // get all fields from within Type
       const fieldRX = new RegExp("(?<=" + typeName + ".*{)([\\s\\S]*?)(?=})", "g");
       let [typeContents] = schemaString.match(fieldRX);
-  
+
       // clean whitespace
       typeContents = typeContents.replace(/[^\S\r\n]{2,}/gi, '').trim();
-  
+
       // get all field types
       const fields = typeContents.match(/(?<=: )([\s\S]*?)(\n|$)/g);
-  
+
       // filter out everyhting that is not a scalar
       const nonScalars = fields.filter(field => {
         field = field.replace("!", "").toLowerCase().trim();
@@ -24,21 +24,25 @@ module.exports = {
         if (field == "id") return false;
         return true;
       });
-  
-      return nonScalars;
+
+      return nonScalars.map(type => type.replace("[", "").replace("]", ""));
     } catch {
-      return
+      return;
     }
   },
-  handleType (typeName, nonScalars) {
+  handleType (typeName, nonScalars, template) {
     nonScalars = toFolderNames(nonScalars);
     const path = `./resolvers/${typeName.toLowerCase()}`;
     fs.mkdirSync(path, { recursive: true });
 
     for (const nonScalar of nonScalars) {
-      fs.writeFileSync(path + `/${nonScalar.toLowerCase()}.js`,`export function ${nonScalar}(_parent, _args, context) {};`);
+      fs.writeFileSync(path + `/${nonScalar.toLowerCase()}.${template}`, `export async function ${nonScalar}(_parent, _args, context) {
+  let ${nonScalar.toLowerCase()}
+  
+  return ${nonScalar.toLowerCase()};
+};`);
     }
 
-    fs.writeFileSync(path + "/index.js",`${nonScalars.map(nonScalar => `import { ${nonScalar} } from "./${nonScalar}";`).join("\n")}\n\nexport const ${typeName} = {\n${nonScalars.map(nonScalar => `\t${nonScalar},`).join("\n")}\n};`);
+    fs.writeFileSync(path + "/index." + template, `${nonScalars.map(nonScalar => `import { ${nonScalar} } from "./${nonScalar}";`).join("\n")}\n\nexport const ${typeName} = {\n${nonScalars.map(nonScalar => `\t${nonScalar},`).join("\n")}\n};`);
   }
 };
