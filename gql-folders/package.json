@@ -1,13 +1,13 @@
 {
   "name": "gql-folder-cli",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Create a clean resolver folder structure based on a GraphQL schema",
   "main": "cli.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Maxim Buz",
-  "license": "ISC",
+  "license": "MIT",
   "keywords": [
     "cli",
     "graphql",
@@ -18,6 +18,6 @@
   "repository": "https://github.com/MaximBuz/custom-cli-tools/tree/main/gql-folders",
   "homepage": "https://github.com/MaximBuz/custom-cli-tools/tree/main/gql-folders#readme",
   "bin": {
-    "gql-folders": "./cli.js"
+    "init-gql-resolvers": "./cli.js"
   }
 }
