@@ -98,8 +98,8 @@ The <code>api-service/index.js</code> file will make all of your hooks available
                          ? <p>{eventsQuery.error}</p>
                          : eventsQuery.results?.map((event) => <p>{event.title}</p>)
                     }
-                    <button onClick={handleUpdateEvent}>Update Event</button>
-                    <button onClick={handleUpdateVenue}>Update Venue</button>
+                    <button onClick={() => handleUpdateEvent(12, {eventData})}>Update Event</button>
+                    <button onClick={() => handleUpdateVenue(222, {venueData}}>Update Venue</button>
                </>
           );
      }
