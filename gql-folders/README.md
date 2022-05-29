@@ -1,7 +1,7 @@
 # Generate GraphQL Resolver Templates
 ### Easily create a clean folder structure based on a GraphQL schema string
 
-Just go into the folder that contains a .graphql file containing your schema and run <code>npx gql-folder-cli [filename.graphql] [template]</code>.
+Just go into the folder that contains a .graphql file containing your schema and run <code>npx init-gql-resolvers [filename.graphql] [template]</code>.
 By default, filename.grahpql will be <code>schema.graphql</code> and template will be <code>js</code>. You can also use <code>ts</code> as a template and all your files will be TypeScript files. Unfortunately no additional TypeScript features like Types etc. will be generated (coming soon...).
 
 The generated folder structure will rougly look as follows:
