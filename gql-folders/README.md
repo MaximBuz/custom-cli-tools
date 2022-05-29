@@ -1,54 +1,36 @@
 # Generate GraphQL Resolver Templates
 ### Easily create a clean folder structure based on a GraphQL schema string
 
-Just go into the folder that contains a file containing your GraphQL schema and run <code>npx gql-folder-cli [filename.js] [variableName]</code>.
-By default, filename.js will be <code>schema.js</code> and variableName will be <code>typeDefs</code>.
-
-The file containing your GraphQL schema should look as follows:
-
-     export const typeDefs = `
-      type User {
-        id: Int!
-        username: String!
-      }
-
-      type Something {
-        id: Int!
-        user: User
-        userId: Int!
-      }
-
-      type Mutation {
-        createNewUser(email: String!): User
-        createSomething: Something
-      }
-    `;
-
+Just go into the folder that contains a .graphql file containing your schema and run <code>npx gql-folder-cli [filename.graphql] [template]</code>.
+By default, filename.grahpql will be <code>schema.graphql</code> and template will be <code>js</code>. You can also use <code>ts</code> as a template and all your files will be TypeScript files. Unfortunately no additional TypeScript features like Types etc. will be generated (coming soon...).
 
 The generated folder structure will rougly look as follows:
     
      resolvers/
       ├─ mutations/
-      │  ├─ createSomething.js
+      │  ├─ createUser.js
+      │  ├─ deleteUser.js
+      │  ├─ updateUser.js
       │  ├─ index.js
-      ├─ something/
+      ├─ queries/
       │  ├─ index.js
-      │  ├─ user.js
+      │  ├─ getUserById.js
+      │  ├─ getAllUsers.js
       ├─ user/
       │  ├─ index.js
       ├─ index.js
 
 
-Every file initializes the resolver functions and exports them in the index.js.
-The main index.js will look as follows:
+Every file initializes the asynchronous resolver functions and exports them into the <code>index.js</code>.
+The main <code>index.js</code> will look as follows:
 
       import { User } from "./user";
-      import { Something } from "./something";
+      import { Query } from "./queries";
       import { Mutation } from "./mutations";
 
       export const resolvers = {
         User,
-        Something,
+        Query,
         Mutation,
       };
 
