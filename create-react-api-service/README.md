@@ -6,6 +6,7 @@ Please provide a valid schema file with a description of all your API endpoints 
 
 For illustrative purposes, here is a valid schema with just one endpoint:
 
+```json
      {
        "base_url": "https://movies.com",
        "endpoints": [
@@ -27,6 +28,7 @@ For illustrative purposes, here is a valid schema with just one endpoint:
          }
        ]
      }
+```
 
 <i>Note: If you have dynamic values like IDs in your endpoints, make sure to declare them like that inside your schema: <code>.../:id/...</code></i> 
 
@@ -53,6 +55,8 @@ The following folder structure will be generated:
       
 The <code>api-service/index.js</code> file will make all of your hooks available for consumption in your react app:
 
+```jsx
+
       import useAddMovie from "./mutations/hooks/useAddMovie";
       import useAddActor from "./mutations/hooks/useAddActor";
       import useUpdateMovie from "./mutations/hooks/useUpdateMovie";
@@ -73,10 +77,11 @@ The <code>api-service/index.js</code> file will make all of your hooks available
           useGetActors,
        };
        export default api;
-
+```
 
 ## Usage inside your components:
 
+```jsx
       import api from '../../api-service/';
       
       export default function ComponentName () {
@@ -115,4 +120,4 @@ The <code>api-service/index.js</code> file will make all of your hooks available
                </>
           );
      }
-     
+```     
