@@ -1,31 +1,37 @@
 # Generate a REST-API-Service inside your React application
-### Interactively create a clean API-Service with easy-to-use hooks for data fetching and data-mutation with REST APIs.
+### Create a clean API-Service with easy-to-use hooks for data fetching and data-mutation with REST APIs.
 
-Simply go inside your <code>src</code> folder and run <code>npx create-react-api-service</code>.
-You will be led through an interactive terminal session that will ask you for a bunch of mandatory questions.
+Simply go inside your <code>src</code> folder and run <code>npx create-react-api-service [endpoints.json]</code>.
+Please provide a valid schema file with a description of all your API endpoints as a parameter to the command. You can find the full JSON Schema definition inside the <code>schema.json</code> file. An example of a valid schema is given in the <code>valid-example-data.json</code> file.
 
-1. <b>What is the BaseURL?</b> <br/>
-     <code>$ http://localhost:4000</code><br/>
-     Here, please type in the base URL of your API.<br/>
-     <i>Note: It is recommended to <b>not</b> type in a trailing slash at this point.</i>
+For illustrative purposes, here is a valid schema with just one endpoint:
 
-2. <b>Provide a list of getAll requests e.g. (getTodos=/todos, getTasks=/tasks)</b> <br/>
-     <code>$ getEvents=/events, getVenues=/venues</code><br/>
-     Here, please type in a comma-seperated list of JavaScript method-names and it's respective endpoints.<br/>
-     <i>Note: This question only asks about the most generic GET requests, that do not need additional parameters like IDs etc.</i>
+     {
+       "base_url": "https://movies.com",
+       "endpoints": [
+         {
+           "name": "updateMovie",
+           "desc": "Update a movie",
+           "params": ["id", "data"],
+           "request": {
+             "path": "/movies/:id",
+             "method": "PUT",
+             "headers": [
+               {
+                 "key": "Content-Type",
+                 "value": "application/json"
+               }
+             ],
+             "body": "data"
+           }
+         }
+       ]
+     }
 
-3. <b>Provide a list of getById requests e.g. (getTodo=/todos/:id, getTask=/tasks/:id)</b> <br/>
-     <code>$ getEvent=/events/:id, getVenue=/venues/:id</code><br/>
-     Here, please type in a comma-seperated list of JavaScript method-names and it's respective endpoints.<br/>
-     <i>Note: Here you should add GET requests, that require additional parameters like IDs. Always make sure to declare IDs as follows: <code>.../:id/...</code>.</i>
-     
+<i>Note: If you have dynamic values like IDs in your endpoints, make sure to declare them like that inside your schema: <code>.../:id/...</code></i> 
 
-4. <b>Provide a list of all mutation requests e.g. (updateTodo=/todos/:id, updateTask=/tasks/:id)</b><br/>
-     <code>$ addEvent=/events, addVenue=/venue, updateEvent=/events/:id, updateVenue=/venues/:id</code><br/>
-     Here, please type in a comma-seperated list of JavaScript method-names and it's respective endpoints.<br/>
-     <i>Note: This question asks about mutating requests. By default this will create POST requests, however you can easily modify the generated code to your needs.</i>
-
-After going through the interactive CLI (i.e. with above answers), the following folder structure will be generated for you:
+Suppose, we have declared a couple of endpoints related to movies and actors inside our schema file.
+The following folder structure will be generated:
 
      api-service/
       ├─ endpoints.js
@@ -33,39 +39,38 @@ After going through the interactive CLI (i.e. with above answers), the following
       ├─ queries/
       │  ├─ index.js
       │  ├─ hooks/
-      │  │  ├─ useGetEvent.js
-      │  │  ├─ useGetEvents.js
-      │  │  ├─ useGetVenue.js
-      │  │  ├─ useGetVenues.js
+      │  │  ├─ useGetMovie.js
+      │  │  ├─ useGetMovies.js
+      │  │  ├─ useGetActor.js
+      │  │  ├─ useGetActors.js
       ├─ mutations/
       │  ├─ index.js
       │  ├─ hooks/
-      │  │  ├─ useAddEvent.js
-      │  │  ├─ useAddVenue.js
-      │  │  ├─ useUpdateEvent.js
-      │  │  ├─ useUpdateVenue.js
+      │  │  ├─ useAddMovie.js
+      │  │  ├─ useAddActor.js
+      │  │  ├─ useUpdateMovie.js
+      │  │  ├─ useUpdateActor.js
       
 The <code>api-service/index.js</code> file will make all of your hooks available for consumption in your react app:
 
-      import useAddEvent from "./mutations/hooks/useAddEvent";
-      import useAddVenue from "./mutations/hooks/useAddVenue";
-      import useUpdateEvent from "./mutations/hooks/useUpdateEvent";
-      import useUpdateVenue from "./mutations/hooks/useUpdateVenue";
-      import useGetEvents from "./queries/hooks/useGetEvents";
-      import useGetVenues from "./queries/hooks/useGetVenues";
-      import useGetEvent from "./queries/hooks/useGetEvent";
-      import useGetVenue from "./queries/hooks/useGetVenue";
+      import useAddMovie from "./mutations/hooks/useAddMovie";
+      import useAddActor from "./mutations/hooks/useAddActor";
+      import useUpdateMovie from "./mutations/hooks/useUpdateMovie";
+      import useUpdateActor from "./mutations/hooks/useUpdateActor";
+      import useGetMovies from "./queries/hooks/useGetMovies";
+      import useGetActors from "./queries/hooks/useGetActors";
+      import useGetMovie from "./queries/hooks/useGetMovie";
+      import useGetActor from "./queries/hooks/useGetActor";
       
       const api = {
-          useAddEvent,
-          useAddVenue,
-          useUpdateEvent,
-          useUpdateVenue,
-          
-          useGetEvents,
-          useGetVenues,
-          useGetEvent,
-          useGetVenue,
+          useAddMovie,
+          useAddActor,
+          useUpdateMovie,
+          useUpdateActor,
+          useGetMovie,
+          useGetMovies,
+          useGetActor,
+          useGetActors,
        };
        export default api;
 
@@ -75,30 +80,27 @@ The <code>api-service/index.js</code> file will make all of your hooks available
       import api from '../../api-service/';
       
       export default function ComponentName () {
-          const eventsQuery = api.useGetEvents();
-          const venueQuery = api.useGetVenues();
+          const moviesQuery = api.useGetMovies();
+          const actorsQuery = api.useGetActors();
           
-          const addEvent = api.useAddEvent();
-          const addVenue = api.useAddVenue();
+          const updateMovie = api.useUpdateMovie();
+          const updateActor = api.useUpdateActor();
           
-          const updateEvent = api.useUpdateEvent();
-          const updateVenue = api.useUpdateVenue();
-          
-          function handleUpdateEvent (id, data) {
-               const mutation = updateEvent(id, data);
+          function handleUpdateMovie (id, data) {
+               const mutation = updateMovie(id, JSON.stringify(data));
                mutation.mutate().then(() => {
                     console.log(mutation.results);
                     mutation.error && console.error(mutation.error);
-                    eventsQuery.refetch();
+                    moviesQuery.refetch();
                });
           }
           
-          function handleUpdateVenue (id, data) {
-               const mutation = updateVenue(id, data);
+          function handleUpdateActor (id, data) {
+               const mutation = updateVenue(id, JSON.stringify(data));
                mutation.mutate().then(() => {
                     console.log(mutation.results);
                     mutation.error && console.error(mutation.error);
-                    venueQuery.refetch();
+                    actorsQuery.refetch();
                });
           }
           
@@ -108,11 +110,9 @@ The <code>api-service/index.js</code> file will make all of your hooks available
                          ? <p>{eventsQuery.error}</p>
                          : eventsQuery.results?.map((event) => <p>{event.title}</p>)
                     }
-                    <button onClick={() => handleUpdateEvent(12, {eventData})}>Update Event</button>
-                    <button onClick={() => handleUpdateVenue(222, {venueData}}>Update Venue</button>
+                    <button onClick={() => handleUpdateEvent(12, {data})}>Update Event</button>
+                    <button onClick={() => handleUpdateVenue(222, {data}}>Update Venue</button>
                </>
           );
      }
      
-## Customization
-Please be aware that depending on your data and your endpoints, you might have to customize the generated code for your needs. For that, please first go inside the <code>api-service/endpoints.js</code> file and make the desired changes (i.e. METHOD-Options, necessary parameters, query strings etc.). After that is done, make sure your hooks are compatible by going inside the respective hook file and updating the function signature to conform to your changes in in the endpoints (i.e. only taking a <code>data</code> parameter, instead of <code>id, data</code>).
