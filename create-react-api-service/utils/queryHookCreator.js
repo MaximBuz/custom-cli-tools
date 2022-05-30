@@ -1,10 +1,10 @@
 const name = require("./transformName");
 
-module.exports = function queryHookCreator ({ method }, withId) {
-  const importsLine = `import { useMemo } from "react";\nimport useApiResult from "..";\nimport { ${method} } from "../../endpoints";\n`;
+module.exports = function queryHookCreator (endpoint) {
+  const importsLine = `import { useMemo } from "react";\nimport useApiResult from "..";\nimport { ${endpoint.name} } from "../../endpoints";\n`;
 
-  const hook = `export default function use${name(method)} (${withId ? "id" : ""}) {
-  const [url, options] = useMemo(() => ${method}(${withId ? "id" : ""}), []);
+  const hook = `export default function use${name(endpoint.name)} (${endpoint.params ? endpoint.params.join(", ") : ""}) {
+  const [url, options] = useMemo(() => ${endpoint.name}(${endpoint.params ? endpoint.params.join(", ") : ""}), []);
   return useApiResult(url, options);
 }`;
 

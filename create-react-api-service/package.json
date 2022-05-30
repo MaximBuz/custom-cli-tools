@@ -15,6 +15,7 @@
     "create-react-api-service": "./index.js"
   },
   "dependencies": {
+    "jsonschema": "^1.4.1",
     "minimist": "^1.2.6"
   }
 }

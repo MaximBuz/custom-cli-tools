@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 const fs = require("fs");
+var validate = require('jsonschema').validate;
 
-const questions = require('./utils/questions');
+const getValidationSchema = require("./utils/getValidationSchema");
 const endPointsCreator = require("./utils/endPointsCreator");
 const queryHookCreator = require('./utils/queryHookCreator');
 const createQueryIndexCode = require("./utils/queryIndex");
@@ -11,22 +12,25 @@ const name = require("./utils/transformName");
 
 (async () => {
   // Grabing user Info
-  let { baseUrl, get, getById, mutate } = await prompts(questions.initial);
+  const [, , ...args] = process.argv;
+  let [schemaFile] = args;
 
-  const getters = get[0].length > 1 ? get.map(getter => {
-    const [method, path] = getter.split("=");
-    return { method, path };
-  }) : [];
+  let schema;
+  try {
+    schema = JSON.parse(fs.readFileSync(`./${schemaFile}`));
+  } catch (err) {
+    console.error(err);
+    process.exit(1);
+  }
 
-  const gettersById = getById[0].length > 1 ? getById.map(getter => {
-    const [method, path] = getter.split("=");
-    return { method, path };
-  }) : [];
-
-  const mutations = mutate[0].length > 1 ? mutate.map(getter => {
-    const [method, path] = getter.split("=");
-    return { method, path };
-  }) : [];
+  // validate correctness of given schema
+  try {
+    const validations = getValidationSchema();
+    validate(schema, validations, { throwAll: true });
+  } catch (err) {
+    console.error(err.errors);
+    process.exit(1);
+  }
 
   // constants
   const BASE_PATH = "./api-client";
@@ -42,57 +46,52 @@ const name = require("./utils/transformName");
     fs.writeFileSync(QUERY_PATH + "/index.js", createQueryIndexCode());
   } catch (err) {
     console.error(err);
+    process.exit(1);
   }
 
   // creates endpoints
   try {
-    fs.writeFileSync(BASE_PATH + "/endpoints.js", await endPointsCreator(baseUrl, getters, gettersById, mutations));
+    fs.writeFileSync(BASE_PATH + "/endpoints.js", await endPointsCreator(
+      schema.base_url, // i.e. https://api.com
+      schema.endpoints
+    ));
   } catch (err) {
     console.error(err);
+    process.exit(1);
   }
 
-  // create a custom hook for every getter
+  // create a custom hook for every endpoint
   try {
     const QUERY_HOOK_PATH = QUERY_PATH + "/hooks/";
-    fs.mkdirSync(QUERY_HOOK_PATH, { recursive: true });
-    for (let getter of getters) {
-      fs.writeFileSync(QUERY_HOOK_PATH + `/use${name(getter.method)}.js`, queryHookCreator(getter, false));
-    }
-  } catch (err) {
-    console.error(err);
-  }
-
-  // create a custom hook for every getterById
-  try {
-    const QUERY_HOOK_PATH = QUERY_PATH + "/hooks/";
-    fs.mkdirSync(QUERY_HOOK_PATH, { recursive: true });
-    for (let getter of gettersById) {
-      fs.writeFileSync(QUERY_HOOK_PATH + `/use${name(getter.method)}.js`, queryHookCreator(getter, true));
-    }
-  } catch (err) {
-    console.error(err);
-  }
-
-  // create a custom hook for every mutation
-  try {
     const MUTATIONS_HANDLER_PATH = MUTATIONS_PATH + "/hooks/";
+
+    fs.mkdirSync(QUERY_HOOK_PATH, { recursive: true });
     fs.mkdirSync(MUTATIONS_HANDLER_PATH, { recursive: true });
-    for (let mutation of mutations) {
-      fs.writeFileSync(MUTATIONS_HANDLER_PATH + `/use${name(mutation.method)}.js`, mutationHookCreator(mutation));
+
+    for (let endpoint of schema.endpoints) {
+      if (endpoint.request.method.toLowerCase() == "get")
+        fs.writeFileSync(QUERY_HOOK_PATH + `/use${name(endpoint.name)}.js`, queryHookCreator(endpoint));
+      else
+        fs.writeFileSync(MUTATIONS_HANDLER_PATH + `/use${name(endpoint.name)}.js`, mutationHookCreator(endpoint));
     }
   } catch (err) {
     console.error(err);
+    process.exit(1);
   }
 
   // create an api object exportet from index
   try {
     fs.writeFileSync(BASE_PATH + `/index.js`,
-      `${mutations.map(mutation => `import use${name(mutation.method)} from "./mutations/hooks/use${name(mutation.method)}"\n`).join("\n")}${getters.map(getter => `import use${name(getter.method)} from "./queries/hooks/use${name(getter.method)}"\n`).join("\n")}${gettersById.map(getter => `import use${name(getter.method)} from "./queries/hooks/use${name(getter.method)}"\n`).join("\n")}
+      `${schema.endpoints.map(endpoint => {
+        if (endpoint.request.method.toLowerCase() == "get")
+          return `import use${name(endpoint.name)} from "./queries/hooks/use${name(endpoint.name)}"`;
+        else
+          return `import use${name(endpoint.name)} from "./mutations/hooks/use${name(endpoint.name)}"`;
+      }
+      ).join("\n")}
 
 const api = {
-  ${mutations.map(mutation => ("use" + name(mutation.method) + ",")).join("\n")}
-  ${getters.map(getter => ("use" + name(getter.method) + ",")).join("\n")}
-  ${gettersById.map(getter => ("use" + name(getter.method) + ",")).join("\n")}
+${schema.endpoints.map(endpoint => ("\tuse" + name(endpoint.name) + ",")).join("\n")}
 }
 
 export default api;`);
@@ -101,5 +100,6 @@ export default api;`);
   }
 
   console.log("done!");
+  process.exit(0);
 
 })();

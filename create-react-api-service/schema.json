@@ -19,7 +19,7 @@
       "items": {
         "type": "object",
         "title": "All inputs that are necessary to generate a valid hook",
-        "required": ["name", "desc", "params", "request"],
+        "required": ["name", "desc", "request"],
         "properties": {
           "name": {
             "type": "string",
@@ -44,7 +44,7 @@
           "request": {
             "type": "object",
             "title": "Describes the request",
-            "required": ["path", "method", "body", "header"],
+            "required": ["path", "method"],
             "properties": {
               "path": {
                 "type": "string",
@@ -57,11 +57,11 @@
                 "examples": ["GET", "POST", "PUT"]
               },
               "body": {
-                "type": "boolean",
-                "title": "Whether a body must be send to this endpoint",
-                "examples": [false, true]
+                "type": "string",
+                "title": "What body must be send to an endpoint. if given, only params from above have to be passed",
+                "examples": ["data"]
               },
-              "header": {
+              "headers": {
                 "type": "array",
                 "title": "Additional headers to be sent with each request",
                 "items": {
@@ -110,30 +110,29 @@
             "examples": [
               {
                 "path": "/movies/:id",
-                "method": "GET",
-                "body": false
+                "method": "GET"
               },
               {
                 "path": "/movies",
                 "method": "POST",
-                "header": [
+                "headers": [
                   {
                     "key": "Content-Type",
                     "value": "application/json"
                   }
                 ],
-                "body": true
+                "body": "data"
               },
               {
                 "path": "/movies/:id",
                 "method": "PUT",
-                "header": [
+                "headers": [
                   {
                     "key": "Content-Type",
                     "value": "application/json"
                   }
                 ],
-                "body": true
+                "body": "data"
               }
             ]
           }
@@ -145,8 +144,7 @@
             "params": ["id"],
             "request": {
               "path": "/movies/:id",
-              "method": "GET",
-              "body": false
+              "method": "GET"
             }
           },
           {
@@ -156,13 +154,13 @@
             "request": {
               "path": "/movies",
               "method": "POST",
-              "header": [
+              "headers": [
                 {
                   "key": "Content-Type",
                   "value": "application/json"
                 }
               ],
-              "body": true
+              "body": "data"
             }
           },
           {
@@ -172,13 +170,13 @@
             "request": {
               "path": "/movies/:id",
               "method": "PUT",
-              "header": [
+              "headers": [
                 {
                   "key": "Content-Type",
                   "value": "application/json"
                 }
               ],
-              "body": true
+              "body": "data"
             }
           }
         ]
@@ -191,8 +189,7 @@
             "params": ["id"],
             "request": {
               "path": "/movies/:id",
-              "method": "GET",
-              "body": false
+              "method": "GET"
             }
           },
           {
@@ -202,13 +199,13 @@
             "request": {
               "path": "/movies",
               "method": "POST",
-              "header": [
+              "headers": [
                 {
                   "key": "Content-Type",
                   "value": "application/json"
                 }
               ],
-              "body": true
+              "body": "data"
             }
           },
           {
@@ -218,13 +215,13 @@
             "request": {
               "path": "/movies/:id",
               "method": "PUT",
-              "header": [
+              "headers": [
                 {
                   "key": "Content-Type",
                   "value": "application/json"
                 }
               ],
-              "body": true
+              "body": "data"
             }
           }
         ]
@@ -241,8 +238,7 @@
           "params": ["id"],
           "request": {
             "path": "/movies/:id",
-            "method": "GET",
-            "body": false
+            "method": "GET"
           }
         },
         {
@@ -252,13 +248,13 @@
           "request": {
             "path": "/movies",
             "method": "POST",
-            "header": [
+            "headers": [
               {
                 "key": "Content-Type",
                 "value": "application/json"
               }
             ],
-            "body": true
+            "body": "data"
           }
         },
         {
@@ -268,13 +264,13 @@
           "request": {
             "path": "/movies/:id",
             "method": "PUT",
-            "header": [
+            "headers": [
               {
                 "key": "Content-Type",
                 "value": "application/json"
               }
             ],
-            "body": true
+            "body": "data"
           }
         }
       ]

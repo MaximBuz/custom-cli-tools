@@ -7,8 +7,7 @@
       "params": ["id"],
       "request": {
         "path": "/movies/:id",
-        "method": "GET",
-        "body": false
+        "method": "GET"
       }
     },
     {
@@ -18,13 +17,13 @@
       "request": {
         "path": "/movies",
         "method": "POST",
-        "header": [
+        "headers": [
           {
             "key": "Content-Type",
             "value": "application/json"
           }
         ],
-        "body": true
+        "body": "data"
       }
     },
     {
@@ -34,13 +33,13 @@
       "request": {
         "path": "/movies/:id",
         "method": "PUT",
-        "header": [
+        "headers": [
           {
             "key": "Content-Type",
             "value": "application/json"
           }
         ],
-        "body": true
+        "body": "data"
       }
     }
   ]
