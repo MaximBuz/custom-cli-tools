@@ -85,11 +85,21 @@ The <code>api-service/index.js</code> file will make all of your hooks available
           const updateVenue = api.useUpdateVenue();
           
           function handleUpdateEvent (id, data) {
-               updateEvent(id, data).then(() => eventsQuery.refetch());
+               const mutation = updateEvent(id, data);
+               mutation.mutate().then(() => {
+                    console.log(mutation.results);
+                    mutation.error && console.error(mutation.error);
+                    eventsQuery.refetch();
+               });
           }
           
           function handleUpdateVenue (id, data) {
-               updateVenue(id, data).then(() => venueQuery.refetch());
+               const mutation = updateVenue(id, data);
+               mutation.mutate().then(() => {
+                    console.log(mutation.results);
+                    mutation.error && console.error(mutation.error);
+                    venueQuery.refetch();
+               });
           }
           
           return (
@@ -103,5 +113,6 @@ The <code>api-service/index.js</code> file will make all of your hooks available
                </>
           );
      }
+     
 ## Customization
 Please be aware that depending on your data and your endpoints, you might have to customize the generated code for your needs. For that, please first go inside the <code>api-service/endpoints.js</code> file and make the desired changes (i.e. METHOD-Options, necessary parameters, query strings etc.). After that is done, make sure your hooks are compatible by going inside the respective hook file and updating the function signature to conform to your changes in in the endpoints (i.e. only taking a <code>data</code> parameter, instead of <code>id, data</code>).
