@@ -1,0 +1,283 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "default": {},
+  "title": "Root",
+  "required": ["base_url", "endpoints"],
+  "properties": {
+    "base_url": {
+      "type": "string",
+      "default": "",
+      "title": "The base URL of your api",
+      "examples": ["https://api.de"]
+    },
+    "endpoints": {
+      "type": "array",
+      "default": [],
+      "title": "A collection of all the endpoints that a hook will be generated for",
+      "items": {
+        "type": "object",
+        "title": "All inputs that are necessary to generate a valid hook",
+        "required": ["name", "desc", "params", "request"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "title": "The method name that will be used to deduct a hook-name",
+            "examples": ["getMovieById", "addMovie", "updateMovie"]
+          },
+          "desc": {
+            "type": "string",
+            "title": "Describes the purpose of this endpoint",
+            "examples": ["Search for a movie by ID", "Post a new movie", "Update a movie"]
+          },
+          "params": {
+            "type": "array",
+            "title": "Describes which additional parameters the fetch request will take",
+            "items": {
+              "type": "string",
+              "title": "A Schema",
+              "examples": ["id", "data"]
+            },
+            "examples": [["id"], ["data"], ["id", "data"]]
+          },
+          "request": {
+            "type": "object",
+            "title": "Describes the request",
+            "required": ["path", "method", "body", "header"],
+            "properties": {
+              "path": {
+                "type": "string",
+                "title": "The path of the endpoint, including IDs",
+                "examples": ["/movies/:id", "/movies"]
+              },
+              "method": {
+                "type": "string",
+                "title": "The HTTP Method for this endpoint",
+                "examples": ["GET", "POST", "PUT"]
+              },
+              "body": {
+                "type": "boolean",
+                "title": "Whether a body must be send to this endpoint",
+                "examples": [false, true]
+              },
+              "header": {
+                "type": "array",
+                "title": "Additional headers to be sent with each request",
+                "items": {
+                  "type": "object",
+                  "title": "A Schema",
+                  "required": ["key", "value"],
+                  "properties": {
+                    "key": {
+                      "type": "string",
+                      "title": "The header key",
+                      "examples": ["Content-Type"]
+                    },
+                    "value": {
+                      "type": "string",
+                      "title": "The header value",
+                      "examples": ["application/json"]
+                    }
+                  },
+                  "examples": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    },
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ]
+                },
+                "examples": [
+                  [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ]
+                ]
+              }
+            },
+            "examples": [
+              {
+                "path": "/movies/:id",
+                "method": "GET",
+                "body": false
+              },
+              {
+                "path": "/movies",
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": true
+              },
+              {
+                "path": "/movies/:id",
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": true
+              }
+            ]
+          }
+        },
+        "examples": [
+          {
+            "name": "getMovieById",
+            "desc": "Search for a movie by ID",
+            "params": ["id"],
+            "request": {
+              "path": "/movies/:id",
+              "method": "GET",
+              "body": false
+            }
+          },
+          {
+            "name": "addMovie",
+            "desc": "Post a new movie",
+            "params": ["data"],
+            "request": {
+              "path": "/movies",
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": true
+            }
+          },
+          {
+            "name": "updateMovie",
+            "desc": "Update a movie",
+            "params": ["id", "data"],
+            "request": {
+              "path": "/movies/:id",
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": true
+            }
+          }
+        ]
+      },
+      "examples": [
+        [
+          {
+            "name": "getMovieById",
+            "desc": "Search for a movie by ID",
+            "params": ["id"],
+            "request": {
+              "path": "/movies/:id",
+              "method": "GET",
+              "body": false
+            }
+          },
+          {
+            "name": "addMovie",
+            "desc": "Post a new movie",
+            "params": ["data"],
+            "request": {
+              "path": "/movies",
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": true
+            }
+          },
+          {
+            "name": "updateMovie",
+            "desc": "Update a movie",
+            "params": ["id", "data"],
+            "request": {
+              "path": "/movies/:id",
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": true
+            }
+          }
+        ]
+      ]
+    }
+  },
+  "examples": [
+    {
+      "base_url": "https://api.de",
+      "endpoints": [
+        {
+          "name": "getMovieById",
+          "desc": "Search for a movie by ID",
+          "params": ["id"],
+          "request": {
+            "path": "/movies/:id",
+            "method": "GET",
+            "body": false
+          }
+        },
+        {
+          "name": "addMovie",
+          "desc": "Post a new movie",
+          "params": ["data"],
+          "request": {
+            "path": "/movies",
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": true
+          }
+        },
+        {
+          "name": "updateMovie",
+          "desc": "Update a movie",
+          "params": ["id", "data"],
+          "request": {
+            "path": "/movies/:id",
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": true
+          }
+        }
+      ]
+    }
+  ]
+}

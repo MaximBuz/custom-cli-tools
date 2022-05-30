@@ -1,0 +1,47 @@
+{
+  "base_url": "https://api.de",
+  "endpoints": [
+    {
+      "name": "getMovieById",
+      "desc": "Search for a movie by ID",
+      "params": ["id"],
+      "request": {
+        "path": "/movies/:id",
+        "method": "GET",
+        "body": false
+      }
+    },
+    {
+      "name": "addMovie",
+      "desc": "Post a new movie",
+      "params": ["data"],
+      "request": {
+        "path": "/movies",
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": true
+      }
+    },
+    {
+      "name": "updateMovie",
+      "desc": "Update a movie",
+      "params": ["id", "data"],
+      "request": {
+        "path": "/movies/:id",
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": true
+      }
+    }
+  ]
+}
