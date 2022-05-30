@@ -3,9 +3,7 @@
   "version": "1.0.18",
   "description": "Creates a bunch of useful and clean custom hooks for data fetching",
   "main": "index.js",
-  "scripts": {
-
-  },
+  "scripts": {},
   "keywords": [
     "react"
   ],
@@ -17,7 +15,6 @@
     "create-react-api-service": "./index.js"
   },
   "dependencies": {
-    "minimist": "^1.2.6",
-    "prompts": "^2.4.2"
+    "minimist": "^1.2.6"
   }
 }

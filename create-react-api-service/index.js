@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-const prompts = require('prompts');
 const fs = require("fs");
 
 const questions = require('./utils/questions');
