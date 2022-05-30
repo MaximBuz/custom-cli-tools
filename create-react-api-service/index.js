@@ -3,7 +3,7 @@
 const fs = require("fs");
 var validate = require('jsonschema').validate;
 
-const getValidationSchema = require("./utils/getValidationSchema");
+const validationSchema = require('./schema.json')
 const endPointsCreator = require("./utils/endPointsCreator");
 const queryHookCreator = require('./utils/queryHookCreator');
 const createQueryIndexCode = require("./utils/queryIndex");
@@ -18,7 +18,7 @@ const name = require("./utils/transformName");
 
   let schema;
   try {
-    schema = JSON.parse(fs.readFileSync(`./${schemaFile}`));
+    schema = JSON.parse(fs.readFileSync(`./${schemaFile}`, 'utf8'));
   } catch (err) {
     console.error(err);
     process.exit(1);
@@ -26,8 +26,7 @@ const name = require("./utils/transformName");
 
   // validate correctness of given schema
   try {
-    const validations = getValidationSchema();
-    validate(schema, validations, { throwAll: true });
+    validate(schema, validationSchema, { throwAll: true });
   } catch (err) {
     console.error(err.errors);
     process.exit(1);
