@@ -11,7 +11,11 @@ module.exports = function mutationHookCreator (endpoint) {
   const mutation = useApiResult();
   
   return function (${parameters}) {
-    return mutation.mutate(...${methodName}(${parameters}));
+    return {
+      mutate: mutation.mutate(...${methodName}(${parameters})),
+      results: mutation.results,
+      error: mutation.error
+    }
   };
 };
 `;
@@ -28,9 +32,11 @@ export default function useDeleteEvent () {
 
   const mutation = useApiResult();
 
-  return function (id) {
-    return mutation.mutate(...deleteEvent(id));
-  };
+  return {
+      mutate: () => mutation.mutate(...deleteEvent()),
+      results: mutation.results,
+      error: mutation.error
+    }
 };
 
 
