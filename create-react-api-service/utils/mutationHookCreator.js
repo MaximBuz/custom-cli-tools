@@ -1,14 +1,17 @@
 const name = require("./transformName");
 
 module.exports = function mutationHookCreator (endpoint) {
-  const importsLine = `import useApiResult from '..';\nimport { ${endpoint.name} } from '../../endpoints';\n`;
+  const { name: methodName, params } = endpoint;
+  const parameters = params ? params.join(", ") : ""
 
-  const hook = `export default function use${name(endpoint.name)} (${endpoint.params ? endpoint.params.join(", ") : ""}) {
+  const importsLine = `import useApiResult from '..';\nimport { ${methodName} } from '../../endpoints';\n`;
+
+  const hook = `export default function use${name(methodName)} () {
   
   const mutation = useApiResult();
   
-  return function (id, data) {
-    return mutation.mutate(...${endpoint.name}(${endpoint.params ? endpoint.params.join(", ") : ""}));
+  return function (${parameters}) {
+    return mutation.mutate(...${methodName}(${parameters}));
   };
 };
 `;
