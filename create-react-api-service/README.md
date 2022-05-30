@@ -7,27 +7,27 @@ Please provide a valid schema file with a description of all your API endpoints 
 For illustrative purposes, here is a valid schema with just one endpoint:
 
 ```json
+{
+     "base_url": "https://movies.com",
+     "endpoints": [
      {
-       "base_url": "https://movies.com",
-       "endpoints": [
-         {
-           "name": "updateMovie",
-           "desc": "Update a movie",
-           "params": ["id", "data"],
-           "request": {
-             "path": "/movies/:id",
-             "method": "PUT",
-             "headers": [
-               {
-                 "key": "Content-Type",
-                 "value": "application/json"
-               }
-             ],
-             "body": "data"
-           }
-         }
-       ]
+          "name": "updateMovie",
+          "desc": "Update a movie",
+          "params": ["id", "data"],
+          "request": {
+          "path": "/movies/:id",
+          "method": "PUT",
+          "headers": [
+          {
+               "key": "Content-Type",
+               "value": "application/json"
+          }
+          ],
+          "body": "data"
+          }
      }
+     ]
+}
 ```
 
 <i>Note: If you have dynamic values like IDs in your endpoints, make sure to declare them like that inside your schema: <code>.../:id/...</code></i> 
@@ -56,68 +56,67 @@ The following folder structure will be generated:
 The <code>api-service/index.js</code> file will make all of your hooks available for consumption in your react app:
 
 ```jsx
+import useAddMovie from "./mutations/hooks/useAddMovie";
+import useAddActor from "./mutations/hooks/useAddActor";
+import useUpdateMovie from "./mutations/hooks/useUpdateMovie";
+import useUpdateActor from "./mutations/hooks/useUpdateActor";
+import useGetMovies from "./queries/hooks/useGetMovies";
+import useGetActors from "./queries/hooks/useGetActors";
+import useGetMovie from "./queries/hooks/useGetMovie";
+import useGetActor from "./queries/hooks/useGetActor";
 
-      import useAddMovie from "./mutations/hooks/useAddMovie";
-      import useAddActor from "./mutations/hooks/useAddActor";
-      import useUpdateMovie from "./mutations/hooks/useUpdateMovie";
-      import useUpdateActor from "./mutations/hooks/useUpdateActor";
-      import useGetMovies from "./queries/hooks/useGetMovies";
-      import useGetActors from "./queries/hooks/useGetActors";
-      import useGetMovie from "./queries/hooks/useGetMovie";
-      import useGetActor from "./queries/hooks/useGetActor";
-      
-      const api = {
-          useAddMovie,
-          useAddActor,
-          useUpdateMovie,
-          useUpdateActor,
-          useGetMovie,
-          useGetMovies,
-          useGetActor,
-          useGetActors,
-       };
-       export default api;
+const api = {
+     useAddMovie,
+     useAddActor,
+     useUpdateMovie,
+     useUpdateActor,
+     useGetMovie,
+     useGetMovies,
+     useGetActor,
+     useGetActors,
+};
+export default api;
 ```
 
 ## Usage inside your components:
 
 ```jsx
-      import api from '../../api-service/';
-      
-      export default function ComponentName () {
-          const moviesQuery = api.useGetMovies();
-          const actorsQuery = api.useGetActors();
-          
-          const updateMovie = api.useUpdateMovie();
-          const updateActor = api.useUpdateActor();
-          
-          function handleUpdateMovie (id, data) {
-               const mutation = updateMovie(id, JSON.stringify(data));
-               mutation.mutate().then(() => {
-                    console.log(mutation.results);
-                    mutation.error && console.error(mutation.error);
-                    moviesQuery.refetch();
-               });
-          }
-          
-          function handleUpdateActor (id, data) {
-               const mutation = updateVenue(id, JSON.stringify(data));
-               mutation.mutate().then(() => {
-                    console.log(mutation.results);
-                    mutation.error && console.error(mutation.error);
-                    actorsQuery.refetch();
-               });
-          }
-          
-          return (
-               <>
-                    {moviesQuery.error
-                         ? <p>{moviesQuery.error}</p>
-                         : moviesQuery.results?.map((movie) => <p>{movie.title}</p>)
-                    }
-                    <button onClick={() => handleUpdateMovie(12, {data})}>Update Movie</button>
-                    <button onClick={() => handleUpdateActor(222, {data}}>Update Actor</button>
-               </>
-          );
+import api from '../../api-service/';
+
+export default function ComponentName () {
+     const moviesQuery = api.useGetMovies();
+     const actorsQuery = api.useGetActors();
+
+     const updateMovie = api.useUpdateMovie();
+     const updateActor = api.useUpdateActor();
+
+     function handleUpdateMovie (id, data) {
+          const mutation = updateMovie(id, JSON.stringify(data));
+          mutation.mutate().then(() => {
+               console.log(mutation.results);
+               mutation.error && console.error(mutation.error);
+               moviesQuery.refetch();
+          });
      }
+
+     function handleUpdateActor (id, data) {
+          const mutation = updateVenue(id, JSON.stringify(data));
+          mutation.mutate().then(() => {
+               console.log(mutation.results);
+               mutation.error && console.error(mutation.error);
+               actorsQuery.refetch();
+          });
+     }
+
+     return (
+          <>
+               {moviesQuery.error
+                    ? <p>{moviesQuery.error}</p>
+                    : moviesQuery.results?.map((movie) => <p>{movie.title}</p>)
+               }
+               <button onClick={() => handleUpdateMovie(12, {data})}>Update Movie</button>
+               <button onClick={() => handleUpdateActor(222, {data}}>Update Actor</button>
+          </>
+     );
+}
 ```     
